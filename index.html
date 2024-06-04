@@ -105,6 +105,13 @@
       }
     }
 
+    function handleGlobalError(message, source, lineno, colno, error) {
+      console.error('Global Error:', message);
+    }
+
+    // Assign the function to window.onerror
+    window.onerror = handleGlobalError;
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -219,13 +226,17 @@
     
     let triggerErrorButton = document.querySelector('#trigger-error');
     triggerErrorButton.addEventListener('click', () => {
+
+      let nonExistentElement = document.querySelector('#non-existent-element');
+      nonExistentElement.innerHTML = "This will throw an error";
+
+      /*
       try {
         let nonExistentElement = document.querySelector('#non-existent-element');
         nonExistentElement.innerHTML = "This will throw an error";
       } catch (error) {
         console.error('Triggered Error:', error.message);
       }
-      /*
       finally {
         console.log('Error triggering attempt finished.');
       }
